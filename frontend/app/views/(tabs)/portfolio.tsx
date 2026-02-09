@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { View, Button, Text, TextInput, Image, FlatList, StyleSheet} from "react-native";
 
 export default function PortfolioView() {
