@@ -1,4 +1,5 @@
 using services;
+using interfaces;
 
 namespace endpoints;
 
@@ -6,7 +7,7 @@ public static class CardmarketEndpoints
 {
 
     public static void MapPokemonEndpoints(this WebApplication app) {
-        app.MapGet("/pokemon/cards/search", async (ClientFactoryService factory, string name) =>
+        app.MapGet("/pokemon/cards/search", async (IClientFactoryService factory, string name) =>
         {
             var client = factory.CreateCardmarketClient();
             var request = new HttpRequestMessage

@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using services;
+using interfaces;
 using endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddSingleton<ClientFactoryService>();
+builder.Services.AddSingleton<IClientFactoryService, ClientFactoryService>();
 
 builder.Services.AddCors(options =>
 {
