@@ -1,6 +1,7 @@
+using interfaces;
 namespace services;
 
-public class ClientFactoryService 
+public class ClientFactoryService : IClientFactoryService
 {
 
     private readonly IHttpClientFactory clientFactory;
