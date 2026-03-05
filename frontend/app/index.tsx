@@ -1,8 +1,20 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from 'expo-router';
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import {useEffect} from "react";
 
 export default function InitialPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    
+    onAuthStateChanged(getAuth(), (user) => {
+      if (user) {
+        router.replace('/views/(tabs)/home')
+      }
+    });
+    
+  }, [])
 
   return (
     <View style={styles.container}>
