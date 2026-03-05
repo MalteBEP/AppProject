@@ -24,7 +24,6 @@ export default function RegisterView () {
 	};
 
     return (
-
         <View style={{ flex: 1, backgroundColor: 'gray', justifyContent: 'center', alignItems: 'center' }}>
         <Text>Register page</Text>
 		<TextInput 
