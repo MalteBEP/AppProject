@@ -13,7 +13,6 @@ export default function LoginView () {
 	const signup = () => {
 		signInWithEmailAndPassword(getAuth(), email, password)
 		.then(() => {
-			console.log('Signed in');
 			router.replace('/views/home')
 		})
 		.catch(error => {
