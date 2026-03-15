@@ -1,57 +1,65 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { styles } from "./profile.styles";
-import {View, Text, Button, TouchableOpacity, Alert} from "react-native";
-import {deleteUser, getAuth, signOut} from "firebase/auth";
+import {View, Text, Button, TouchableOpacity, Alert, AlertType, AlertButton} from "react-native";
+import {deleteUser, EmailAuthProvider, getAuth, reauthenticateWithCredential} from "firebase/auth";
 import {router} from "expo-router";
+import firebase from "firebase/compat/app";
+import {credentials} from "@grpc/grpc-js";
 
 export default function ProfileView () {
     
     const auth = getAuth();
     const user = auth.currentUser;
-    const username = user?.email;
+    const email = user?.email;
+    const [password, setPassword] = useState('');
 
-    const deleteAccount = async () => {
-        if (user != null){
-            
-            deleteUser(user).then(() => {
-                // User deleted.
-            }).catch((error) => {
-                console.log(error);
-            });
-        }
-        
-    }
     
-    const signOutAccount = async () => {
-        Alert.alert(
-            'Confirm to sign out',
-            'Are you sure you want to sign out?',
+    const deleteAccount = async () => {
+
+        Alert.prompt(
+            "Confirm account deletion",
+            'Are you sure you want to delete your account? This action cannot be undone. Please confirm your password',
             [
                 {
-                    text: 'Confirm',
-                    onPress: () => 
-                        signOut(auth).then(() => {
-                        // Sign-out successful.
-                        router.replace("/views/login");
-                    }).catch((error) => {
-                        // An error happened.
-                    }),
+                    text: "Cancel",
+                    style: "cancel",
                 },
-            ],
-            {
-                cancelable: true,
-                onDismiss: () =>
-                    Alert.alert(
-                        'This alert was dismissed by tapping outside of the alert dialog.',
-                    ),
-            },
-        );
+                {
+                    text: "Delete",
+                    onPress: async (password?: string) => {
+                        if (!password) return;
+                        
+                        if (user?.email != null) {
+                            
+                            try {
+                                await user.getIdToken(true);
+                                
+                                const credentials = EmailAuthProvider.credential(user.email, password)
+                                await reauthenticateWithCredential(user, credentials);
+                                await deleteUser(user);
+                                console.log("user deleted successfully.");
+                                router.replace("/views/login")
+                            }
+                            catch (error) {
+                                console.error(error);
+                            }
+                            
+                        }
+                        
+                    }
+                }
+            ])}
+        
+    
+    const signOutAccount = async () => {
+        
+        
     }
     
     return (
         <View style={styles.container}>
             <View style={styles.frontcontainer}>
-                <Text style={styles.headerText}>{username}</Text>
+                <Text style={styles.headerText}>{email}</Text>
                 <TouchableOpacity style={styles.deleteButton} onPress={deleteAccount}>
                     <Text style={styles.deleteButtonText}>Delete Account</Text>
                 </TouchableOpacity>
@@ -61,6 +69,7 @@ export default function ProfileView () {
                 </TouchableOpacity>
             </View>
         </View>
+        
     );
 }
 

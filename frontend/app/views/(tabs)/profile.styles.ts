@@ -67,6 +67,17 @@ export const styles = StyleSheet.create({
     deleteButtonText: {
         color: 'white',
         fontWeight: 'bold',
+    },
+    
+    prompt: {
+        position: "absolute",
+        top: "40%",
+        left: "10%",
+        right: "10%",
+        backgroundColor: "white",
+        padding: 20,
+        borderRadius: 10
+        
     }
     
     

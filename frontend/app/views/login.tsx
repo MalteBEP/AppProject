@@ -10,7 +10,7 @@ export default function LoginView () {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const signup = () => {
+	const login = () => {
 		signInWithEmailAndPassword(getAuth(), email, password)
 		.then(() => {
 			router.replace('/views/home')
@@ -41,7 +41,7 @@ export default function LoginView () {
 
 			<TouchableOpacity
 				style={styles.button}
-				onPress={signup}>
+				onPress={login}>
 				<Text style={styles.buttonText}>Sign in</Text>
 			</TouchableOpacity>
         </View>
