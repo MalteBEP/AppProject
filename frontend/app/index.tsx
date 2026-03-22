@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from 'expo-router';
-import {getAuth, onAuthStateChanged} from "firebase/auth";
+import { styles } from "./index.styles";
 import {useEffect} from "react";
 
 export default function InitialPage() {
@@ -8,24 +8,24 @@ export default function InitialPage() {
 
   useEffect(() => {
     
-    onAuthStateChanged(getAuth(), (user) => {
-      if (user) {
-        router.replace('/views/(tabs)/home')
-      }
-    });
+    //onAuthStateChanged(getAuth(), (user) => {
+      //if (user) {
+        //router.replace('/views/(tabs)/home')
+      //}
+    //});
     
   }, [])
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={styles.button}
+        style={styles.button1}
         onPress={() => router.replace('/views/login')}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.button}
+        style={styles.button2}
         onPress={() => router.replace('/views/register')}>
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
@@ -33,26 +33,4 @@ export default function InitialPage() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'gray'
 
-  },
-  button: {
-    borderWidth: 1,
-    borderColor: 'magenta',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-    marginVertical: 8,
-    backgroundColor: '#gray',
-  },
-  buttonText: {
-    color: 'magenta',
-    fontSize: 16,
-    fontWeight: '500',
-  }
-});

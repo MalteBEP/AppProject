@@ -1,8 +1,18 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	StyleSheet,
+	Keyboard,
+	TouchableWithoutFeedback,
+	Alert
+} from "react-native";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'expo-router';
+import {styles} from "@/app/views/register.styles";
 
 
 
@@ -12,64 +22,78 @@ export default function RegisterView () {
 	const router = useRouter();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [passwordConfirm, setPasswordConfirm] = useState('');
 
 	const register = () => {
-		createUserWithEmailAndPassword(getAuth(), email, password)
-		.then(() => {
-			router.replace('/views/home')
-		})
-		.catch(error => {
-			console.error(error);
-		});
+		
+		if (password != passwordConfirm) {
+			Alert.alert("Error", "Passwords do not match");
+			console.log("Error");
+		}
+		else{
+			createUserWithEmailAndPassword(getAuth(), email, password)
+				.then(() => {
+					router.replace('/views/home')
+				})
+				.catch(error => {
+					console.error(error);
+				});
+		}
 	};
 
-    return (
-        <View style={{ flex: 1, backgroundColor: 'gray', justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Register page</Text>
-		<TextInput 
-			value={email}
-			placeholder='Email'
-			onChangeText={setEmail}
-			style={{backgroundColor: '#gray', margin: 20}}>
-	   	</TextInput>
+	return (
+	<TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+		<View style={styles.container}>
+			<Text style={styles.header}>Create an account</Text>
+			<TextInput
+				value={email}
+				placeholder='Email'
+				placeholderTextColor={"#4D4D4D"}
+				enablesReturnKeyAutomatically={true}
+				onChangeText={setEmail}
+				style={styles.textInput}>
+			</TextInput>
 
-		<TextInput
-			value={password}
-			placeholder='Password'
-			onChangeText={setPassword}
-			secureTextEntry={true}
-			style={{backgroundColor: '#gray', margin: 20}}>
-	   	</TextInput>
+			<Text style={styles.header2}>Choose a secure password</Text>
+			<TextInput
+				value={password}
+				placeholder='Password'
+				placeholderTextColor={"#4D4D4D"}
+				onChangeText={setPassword}
+				enablesReturnKeyAutomatically={true}
+				secureTextEntry={true}
+				style={styles.textInputPassword}>
+			</TextInput>
 
+			<TextInput
+				value={passwordConfirm}
+				placeholder='Confirm Password'
+				placeholderTextColor={"#4D4D4D"}
+				onChangeText={setPasswordConfirm}
+				enablesReturnKeyAutomatically={true}
+				secureTextEntry={true}
+				style={styles.textInputPassword}>
+			</TextInput>
+			
+			<TouchableOpacity
+				style={styles.button}
+				onPress={register}>
+				<Text style={styles.buttonText}>Create Account</Text>
+			</TouchableOpacity>
 
-	   	<TouchableOpacity
-	   	style={styles.button}
-	   	onPress={register}>
-	   	<Text style={styles.buttonText}>Sign up</Text>
-	   	</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.createAccountButton}
+				onPress={() => {router.replace("/views/login")}}>
+				<Text style={styles.createAccountText}>Already have an account? Sign in here.</Text>
+			</TouchableOpacity>
 
-        </View>
-    );
+			<TouchableOpacity
+				style={styles.createAccountButton}
+				onPress={() => {router.replace("/views/home")}}>
+				<Text style={styles.createAccountText}>Don't want to sign up? Login as a guest</Text>
+			</TouchableOpacity>
+		</View>
+	</TouchableWithoutFeedback>
+
+);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	button: {
-		borderWidth: 1,
-		borderColor: 'magenta',
-		borderRadius: 5,
-		paddingVertical: 10,
-		paddingHorizontal: 25,
-		marginVertical: 8,
-		backgroundColor: 'gray',
-	},
-	buttonText: {
-		color: 'magenta',
-		fontSize: 16,
-		fontWeight: '500',
-	}
-});

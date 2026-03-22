@@ -76,6 +76,7 @@ export const styles = StyleSheet.create({
     
     Icon: {
         marginTop: 95,
+        color: 'white',
         
     },
     

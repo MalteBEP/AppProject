@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import { styles } from "./profile.styles";
 import {View, Text, TouchableOpacity, Alert,} from "react-native";
 import {deleteUser, EmailAuthProvider, getAuth, reauthenticateWithCredential, signOut} from "firebase/auth";
@@ -11,11 +11,27 @@ export default function ProfileView () {
     const auth = getAuth();
     const user = auth.currentUser;
     const email = user?.email;
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState('');
-
+    
+    const GuestUser = () => {
+        if (!user?.email){
+            setUsername("Guest User");
+        }
+        else {
+            setUsername(user.email);
+        }
+    }
+    useEffect(() => {GuestUser()}, []);
+    
     
     const deleteAccount = async () => {
-
+        
+        
+        if (!user?.email){
+            Alert.alert("Must be signed in to use this feature");
+        }
+        else{
         Alert.prompt(
             "Confirm account deletion",
             'Are you sure you want to delete your account? This action cannot be undone. Please confirm your password',
@@ -49,11 +65,18 @@ export default function ProfileView () {
                     }
                 }
             ])}
+        }
         
     
     const signOutAccount = async () => {
-        
-        Alert.alert(
+
+        if (!user?.email){
+            Alert.alert("Must be signed in to use this feature");
+        }
+        else 
+        {
+        Alert.alert
+        (
            "Do you wish to sign out?",
             "Confirm to sign out of your account",
             [
@@ -63,37 +86,38 @@ export default function ProfileView () {
                 },
                 {
                     text: "Sign Out",
-                    onPress: async () => {
+                    onPress: async () => 
+                    {
 
-                        if (user?.email != null) {
+                        if (user?.email != null) 
+                        {
 
-                            try {
+                            try 
+                            {
                                 await signOut(auth).then(() => {
                                     router.replace("/views/login")
                                 })
                                 console.log("user signed out successfully.");
                                 router.replace("/views/login");
                             }
-                            catch (error) {
+                            catch (error) 
+                            {
                                 console.log(error);
                             }
 
                         }
-                        
-                        
                     }
                 }
             ]
             
         )
-        
-        
+        }
     }
     
     return (
-        <View style={styles.container}>
+        <View style={styles.container} >
             <View style={styles.frontcontainer}>
-                <Text style={styles.headerText}>{email}</Text>
+                <Text style={styles.headerText}>{username}</Text>
                 
                 <Ionicons style={styles.Icon} name="prism-sharp" size={250} color={"#FFFFFF"}/>
                 
