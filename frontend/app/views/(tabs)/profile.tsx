@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import { styles } from "./profile.styles";
-import {View, Text, Button, TouchableOpacity, Alert, AlertType, AlertButton} from "react-native";
-import {deleteUser, EmailAuthProvider, getAuth, reauthenticateWithCredential} from "firebase/auth";
+import {View, Text, TouchableOpacity, Alert,} from "react-native";
+import {deleteUser, EmailAuthProvider, getAuth, reauthenticateWithCredential, signOut} from "firebase/auth";
 import {router} from "expo-router";
-import firebase from "firebase/compat/app";
-import {credentials} from "@grpc/grpc-js";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import {Ionicons} from "@expo/vector-icons";
 
 export default function ProfileView () {
     
@@ -38,7 +38,7 @@ export default function ProfileView () {
                                 await reauthenticateWithCredential(user, credentials);
                                 await deleteUser(user);
                                 console.log("user deleted successfully.");
-                                router.replace("/views/login")
+                                router.replace("/views/login");
                             }
                             catch (error) {
                                 console.error(error);
@@ -53,6 +53,40 @@ export default function ProfileView () {
     
     const signOutAccount = async () => {
         
+        Alert.alert(
+           "Do you wish to sign out?",
+            "Confirm to sign out of your account",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel",
+                },
+                {
+                    text: "Sign Out",
+                    onPress: async () => {
+
+                        if (user?.email != null) {
+
+                            try {
+                                await signOut(auth).then(() => {
+                                    router.replace("/views/login")
+                                })
+                                console.log("user signed out successfully.");
+                                router.replace("/views/login");
+                            }
+                            catch (error) {
+                                console.log(error);
+                            }
+
+                        }
+                        
+                        
+                    }
+                }
+            ]
+            
+        )
+        
         
     }
     
@@ -60,12 +94,15 @@ export default function ProfileView () {
         <View style={styles.container}>
             <View style={styles.frontcontainer}>
                 <Text style={styles.headerText}>{email}</Text>
+                
+                <Ionicons style={styles.Icon} name="prism-sharp" size={250} color={"#FFFFFF"}/>
+                
+                <TouchableOpacity style={styles.signOutButton} onPress={signOutAccount}>
+                    <Text style={styles.deleteSignOutButtonText}>Sign out</Text>
+                </TouchableOpacity>
+                
                 <TouchableOpacity style={styles.deleteButton} onPress={deleteAccount}>
                     <Text style={styles.deleteButtonText}>Delete Account</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.signOutButton} onPress={signOutAccount}>
-                    <Text style={styles.deleteButtonText}>Sign out</Text>
                 </TouchableOpacity>
             </View>
         </View>

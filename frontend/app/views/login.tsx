@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import {initializeApp } from 'firebase/app';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard, TouchableWithoutFeedback} from "react-native";
+import { styles } from "./login.styles";
 import {getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'expo-router';
 
@@ -21,22 +21,26 @@ export default function LoginView () {
 
 	};
     return (
-
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'gray' }}>
-        <Text>Login page</Text>
+		<TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+        <View style={styles.container}>
+        <Text style={styles.header}>Sign in to your account</Text>
 			<TextInput
 				value={email}
 				placeholder='Email'
+				placeholderTextColor={"#4D4D4D"}
+				enablesReturnKeyAutomatically={true}
 				onChangeText={setEmail}
-				style={{backgroundColor: '#ffffff', margin: 20}}>
+				style={styles.textInput}>
 			</TextInput>
 
 			<TextInput
 				value={password}
 				placeholder='Password'
+				placeholderTextColor={"#4D4D4D"}
 				onChangeText={setPassword}
+				enablesReturnKeyAutomatically={true}
 				secureTextEntry={true}
-				style={{backgroundColor: '#ffffff', margin: 20}}>
+				style={styles.textInput}>
 			</TextInput>
 
 			<TouchableOpacity
@@ -44,29 +48,15 @@ export default function LoginView () {
 				onPress={login}>
 				<Text style={styles.buttonText}>Sign in</Text>
 			</TouchableOpacity>
+			
+			<TouchableOpacity
+			style={styles.createAccountButton}
+			onPress={() => {router.replace("/views/register")}}>
+				<Text style={styles.createAccountText}>Don't have an account? Click here to create one</Text>
+			</TouchableOpacity>
         </View>
+		</TouchableWithoutFeedback>
     );
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	button: {
-		borderWidth: 1,
-		borderColor: 'magenta',
-		borderRadius: 5,
-		paddingVertical: 10,
-		paddingHorizontal: 25,
-		marginVertical: 8,
-		backgroundColor: 'gray',
-	},
-	buttonText: {
-		color: 'magenta',
-		fontSize: 16,
-		fontWeight: '500',
-	}
-});
 

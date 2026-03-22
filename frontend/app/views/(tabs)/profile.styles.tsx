@@ -21,21 +21,21 @@ export const styles = StyleSheet.create({
         backgroundColor: 'grey',
         alignSelf: 'stretch',
         alignItems: 'center',
-        marginTop: 80,
-        marginRight: 50,
-        marginLeft: 50,
-        marginBottom: 150,
+        marginTop: 45,
+        marginRight: 20,
+        marginLeft: 20,
+        marginBottom: 100,
         borderRadius: 25,
         
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.2,
+        shadowOffset: { width: 10, height: 10 },
+        shadowOpacity: 0.5,
         shadowRadius: 12,
     },
     
     deleteButton: {
-        backgroundColor: '#FF2C21',
-        marginTop: 500,
+        backgroundColor: '#d11515',
+        marginTop: 25,
         borderRadius: 25,
         width: '50%',
         height: '7%',
@@ -43,14 +43,14 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
 
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.2,
+        shadowOffset: { width: 3, height: 6 },
+        shadowOpacity: 0.5,
         shadowRadius: 12,
     },
     
     signOutButton: {
-        backgroundColor: '#000',
-        marginTop: 50,
+        backgroundColor: '#FFFFFF',
+        marginTop: 150,
         borderRadius: 25,
         width: '50%',
         height: '7%',
@@ -58,8 +58,8 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
 
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.2,
+        shadowOffset: { width: 3, height: 6 },
+        shadowOpacity: 0.5,
         shadowRadius: 12,
         
     },
@@ -68,17 +68,18 @@ export const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
+
+    deleteSignOutButtonText: {
+        color: 'back',
+        fontWeight: 'bold',
+    },
     
-    prompt: {
-        position: "absolute",
-        top: "40%",
-        left: "10%",
-        right: "10%",
-        backgroundColor: "white",
-        padding: 20,
-        borderRadius: 10
+    Icon: {
+        marginTop: 95,
         
-    }
+    },
+    
+    
     
     
 });
