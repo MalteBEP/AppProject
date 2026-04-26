@@ -47,7 +47,7 @@ export default function ViewsLayout() {
           <Tabs.Screen 
               name="portfolio"
               options={{
-                  title: "Portfolio",
+                  title: "Cards",
                   tabBarIcon: ({ color, size }) => (
                       <MaterialCommunityIcons name="cards" size={size} color={color} />
                   ),

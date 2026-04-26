@@ -9,8 +9,8 @@ public static class CardmarketEndpoints
     {
         app.MapGet("/pokemon/cards/search", async (ICardmarketService service, string name) =>
             {
-                var result = await service.SearchPokemonCards(name);
-                return Results.Json(result);
+                var body = await service.SearchPokemonCards(name);
+                return Results.Text(body, "application/json");
             });
     }
 }

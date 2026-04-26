@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { styles } from "./portfolio.styles";
-import {View, TextInput, Image, FlatList, Text} from "react-native";
+import {View, TextInput, Image, FlatList, Text, TouchableOpacity, Modal, Pressable} from "react-native";
 
 export default function PortfolioView() {
 
     const [searchInput, setSearchInput] = useState('');
     const [data, SetData] = useState<any[]>([]);
     const [noResults, SetNoResults] = useState("")
+    const [selectedPokemon, SetSelectedPokemon] = useState(null);
+    
+    const cardSelected = (item : any) => {
+        SetSelectedPokemon(item);
+    };
 
     const fetchData = async () => {
         
@@ -33,6 +38,22 @@ export default function PortfolioView() {
     
     return (
         <View style={styles.container}>
+            
+            
+            <Modal
+                visible={selectedPokemon !== null}
+                transparent={true}
+                animationType="fade">
+                <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)'}}
+                                  onPress={() => SetSelectedPokemon(null)}>
+                    <Pressable>
+                        <Image source={{ uri: (selectedPokemon as any)?.image }}
+                               style={{ width: 300, height: 420 }}/>
+                    </Pressable>
+                </TouchableOpacity>
+            </Modal>
+            
+            
             <FlatList
                 data={data}
                 keyExtractor={({ id }) => id}
@@ -56,13 +77,16 @@ export default function PortfolioView() {
 
                 renderItem={({ item }) => (
                     <View style={styles.cards}>
-                        <Image
-                            source={{ uri: item.image }}
-                            style={{
-                                width: 160,
-                                height: 220,
-                            }}
-                        />
+                        <TouchableOpacity
+                        onPress={() => cardSelected(item)}>
+                            <Image
+                                source={{ uri: item.image }}
+                                style={{
+                                    width: 160,
+                                    height: 220,
+                                }}
+                            />
+                        </TouchableOpacity>
                     </View>
                 )}
             />
