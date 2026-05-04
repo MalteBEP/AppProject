@@ -6,11 +6,16 @@ export default function PortfolioView() {
 
     const [searchInput, setSearchInput] = useState('');
     const [data, SetData] = useState<any[]>([]);
-    const [noResults, SetNoResults] = useState("")
-    const [selectedPokemon, SetSelectedPokemon] = useState(null);
+    const [noResults, SetNoResults] = useState("");
+    const [selectedPokemon, SetSelectedPokemon] = useState<any>(null);
     
     const cardSelected = (item : any) => {
-        SetSelectedPokemon(item);
+        if (item){
+            SetSelectedPokemon(item);
+        }
+        else {
+            console.log(item);
+        }
     };
 
     const fetchData = async () => {
@@ -46,10 +51,21 @@ export default function PortfolioView() {
                 animationType="fade">
                 <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)'}}
                                   onPress={() => SetSelectedPokemon(null)}>
-                    <Pressable>
+                    <Pressable style={{flexDirection: 'row'}}>
                         <Image source={{ uri: (selectedPokemon as any)?.image }}
                                style={{ width: 300, height: 420 }}/>
+                        <View style={{ flexDirection: 'column', height: 420, backgroundColor: 'white', padding: 10}}>
+                            
+                            <Text style={{ backgroundColor: 'white'}}> Name: {selectedPokemon?.name}</Text>
+                            
+                            <Text style={{ backgroundColor: 'white'}}> Card Number: {selectedPokemon?.card_number}</Text>
+                            
+                            <Text style={{ backgroundColor: 'white'}}> Rarity: {selectedPokemon?.rarity}</Text>
+
+                            <Text style={{ backgroundColor: 'white'}}> Price: {selectedPokemon?.prices.cardmarket.lowest_near_mint}€</Text>
+                        </View>
                     </Pressable>
+                    
                 </TouchableOpacity>
             </Modal>
             
