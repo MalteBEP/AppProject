@@ -9,10 +9,10 @@ import {
 	TouchableWithoutFeedback,
 	Alert
 } from "react-native";
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'expo-router';
 import {styles} from "@/app/views/register.styles";
+import { auth } from "@/firebaseConfig";
 
 
 
@@ -31,7 +31,7 @@ export default function RegisterView () {
 			console.log("Error");
 		}
 		else{
-			createUserWithEmailAndPassword(getAuth(), email, password)
+			createUserWithEmailAndPassword(auth, email, password)
 				.then(() => {
 					router.replace('/views/home')
 				})
