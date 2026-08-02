@@ -12,14 +12,14 @@ builder.Services.AddScoped<ICardmarketService, CardmarketService>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowExpo", policy =>
+    options.AddPolicy("AllowAny", policy =>
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
               .AllowAnyHeader());
 });
 
 var app = builder.Build();
-app.UseCors("AllowExpo");
+app.UseCors("AllowAny");
 app.MapPokemonEndpoints();
 app.Run();
 

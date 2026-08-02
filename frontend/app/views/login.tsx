@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard, TouchableWithoutFeedback} from "react-native";
 import { styles } from "./login.styles";
-import {getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
+
 import { useRouter } from 'expo-router';
 
 export default function LoginView () {
@@ -11,7 +13,7 @@ export default function LoginView () {
 	const [password, setPassword] = useState('');
 
 	const login = () => {
-		signInWithEmailAndPassword(getAuth(), email, password)
+		signInWithEmailAndPassword(auth, email, password)
 		.then(() => {
 			router.replace('/views/home')
 		})
