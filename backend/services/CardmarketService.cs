@@ -1,33 +1,24 @@
-using infrastructure;
+using System.Text.Json;
 using interfaces;
 
 namespace services;
 
 public class CardmarketService : ICardmarketService
 {
-    private readonly ClientFactoryService _factory;
+    private readonly HttpClient _client;
 
-    public CardmarketService(ClientFactoryService factory)
+    public CardmarketService(HttpClient client)
     {
-        _factory = factory;
+        _client = client;
     }
     
-    public async Task<string> SearchPokemonCards(string name)
+    public async Task<JsonElement> SearchPokemonCards(string name)
     {
-        var client = _factory.CreateCardmarketClient();
+        var url = $"pokemon/cards/search?search={Uri.EscapeDataString(name)}&sort=relevance";
 
-        var request = new HttpRequestMessage
-        {
-            Method = HttpMethod.Get,
-            RequestUri = new Uri(
-                $"https://cardmarket-api-tcg.p.rapidapi.com/pokemon/cards/search?search={Uri.EscapeDataString(name)}&sort=relevance"
-            )
-        };
-
-        using var response = await client.SendAsync(request);
-
-        response.EnsureSuccessStatusCode();
-
-        return await response.Content.ReadAsStringAsync();
+        var stream = await _client.GetStreamAsync(url);
+        using var jsonDoc = await JsonDocument.ParseAsync(stream);
+        
+        return jsonDoc.RootElement.Clone();
     }
 }

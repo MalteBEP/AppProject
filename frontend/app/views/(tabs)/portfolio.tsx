@@ -22,7 +22,7 @@ export default function PortfolioView() {
         
         try 
         {
-            const resp = await fetch(`http://172.20.10.6:5000/pokemon/cards/search?name=${encodeURIComponent(searchInput)}&sort=relevance`);
+            const resp = await fetch(`http://127.0.0.1:5000/pokemon/cards/search?name=${encodeURIComponent(searchInput)}&sort=relevance`);
             const json = await resp.json();
             
             if (json.data.length === 0) {
@@ -102,7 +102,7 @@ export default function PortfolioView() {
                                 </Text>
                                 <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>
                                     {selectedPokemon?.prices?.ebay?.graded?.psa?.['10']?.median_price
-                                        ? `$${selectedPokemon.prices.ebay.graded.psa['10'].median_price}`
+                                        ? `${selectedPokemon.prices.ebay.graded.psa['10'].median_price}€`
                                         : 'No Data'}
                                 </Text>
                             </View>

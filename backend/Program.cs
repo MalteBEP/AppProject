@@ -1,14 +1,15 @@
 using services;
 using interfaces;
 using endpoints;
-using infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpClient();
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddSingleton<ClientFactoryService>();
-builder.Services.AddScoped<ICardmarketService, CardmarketService>();
+builder.Services.AddHttpClient<ICardmarketService, CardmarketService>(client =>
+{
+    client.BaseAddress = new Uri("https://cardmarket-api-tcg.p.rapidapi.com/");
+    client.DefaultRequestHeaders.Add("x-rapidapi-key", builder.Configuration["RAPIDAPI_KEY"]);
+    client.DefaultRequestHeaders.Add("x-rapidapi-host", "cardmarket-api-tcg.p.rapidapi.com");
+});
 
 builder.Services.AddCors(options =>
 {
