@@ -1,7 +1,12 @@
 # Pokémon Card Tracker
 
 A simple Pokémon card tracker that pulls live pricing from Cardmarket
-<img src="./1.png" alt="App Preview 1" width="300" /> <img src="./2.png" alt="App Preview 2" width="300" />
+
+<p>
+  <img src="./1.png" alt="App Preview 1" width="300" />
+  <img src="./2.png" alt="App Preview 2" width="300" />
+</p>
+
 ## Tech Stack
 
 * **Frontend:** React Native
